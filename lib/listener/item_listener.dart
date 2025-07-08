@@ -4,5 +4,6 @@ abstract class ItemClickListener {
   /// tabIndex：当前 tab 索引
   /// name：城市名称
   /// code：城市代码
-  void onItemClick(int tabIndex, String name, String code);
+  /// data: 扩展数据
+  void onItemClick(int tabIndex, String name, String code, dynamic data);
 }

@@ -176,8 +176,10 @@ class CityPickerState extends State<CityPickerWidget>
         _myTabs.add(TabTitle(index: i, title: widget.initialAddress![i].name));
         if (i != widget.initialAddress!.length - 1) {
           _selectData.add(AddressNode(
-              code: widget.initialAddress![i].code,
-              name: widget.initialAddress![i].name));
+            code: widget.initialAddress![i].code,
+            name: widget.initialAddress![i].name,
+            data: widget.initialAddress![i].data,
+          ));
         }
       }
       _tabController = TabController(
@@ -271,7 +273,7 @@ class CityPickerState extends State<CityPickerWidget>
   }
 
   @override
-  void onItemClick(int tabIndex, String name, String code) {
+  void onItemClick(int tabIndex, String name, String code, dynamic data) {
     if (_isClick) {
       return;
     }
@@ -290,7 +292,7 @@ class CityPickerState extends State<CityPickerWidget>
       }
     }
 
-    _selectData.insert(_currentIndex - 1, AddressNode(code: code, name: name));
+    _selectData.insert(_currentIndex - 1, AddressNode(code: code, name: name, data: data,));
     _myTabs.elementAt(_currentIndex - 1).title =
         _selectData[_currentIndex - 1].name;
 

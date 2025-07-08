@@ -191,7 +191,6 @@ class ItemWidgetState extends State<ItemWidget>
                 if (widget.indexBarWidth == 0) {
                   return const SizedBox.shrink();
                 }
-
                 return Container(
                   width: double.infinity,
                   height: widget.itemHeadHeight,
@@ -223,7 +222,7 @@ class ItemWidgetState extends State<ItemWidget>
                       setState(() {});
                     }
                     widget.itemClickListener!
-                        .onItemClick(widget.index!, city.name!, city.code!);
+                        .onItemClick(widget.index!, city.name!, city.code!, city.data);
                   },
                   child: Container(
                     width: double.infinity,
