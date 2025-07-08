@@ -187,7 +187,7 @@ class CityPickerState extends State<CityPickerWidget>
       _pageController = PageController(initialPage: _currentIndex);
       for (int i = 0; i < widget.initialAddress!.length; i++) {
         if (i == 0) {
-          widget.cityPickerListener!.onDataLoad(i, "", "").then((value) {
+          widget.cityPickerListener!.onDataLoad(i, "", "", null).then((value) {
             List<SectionCity> list = sortCity(value);
             _mData[i] = list;
             if (mounted) {
@@ -196,8 +196,10 @@ class CityPickerState extends State<CityPickerWidget>
           });
         } else {
           widget.cityPickerListener!
-              .onDataLoad(i, widget.initialAddress![i - 1].code!,
-                  widget.initialAddress![i - 1].name!)
+              .onDataLoad(i,
+                widget.initialAddress![i - 1].code!,
+                widget.initialAddress![i - 1].name!,
+                widget.initialAddress![i - 1].data)
               .then((value) {
             List<SectionCity> list = sortCity(value);
             _mData[i] = list;
@@ -209,7 +211,7 @@ class CityPickerState extends State<CityPickerWidget>
       }
     } else {
       widget.cityPickerListener!
-          .onDataLoad(_currentIndex, "", "")
+          .onDataLoad(_currentIndex, "", "", null)
           .then((value) {
         List<SectionCity> list = sortCity(value);
         if (list.isEmpty) {
@@ -297,7 +299,7 @@ class CityPickerState extends State<CityPickerWidget>
         _selectData[_currentIndex - 1].name;
 
     widget.cityPickerListener!
-        .onDataLoad(_currentIndex, code, name)
+        .onDataLoad(_currentIndex, code, name, data)
         .then((value) {
       List<SectionCity> list = sortCity(value);
       if (list.isEmpty) {
