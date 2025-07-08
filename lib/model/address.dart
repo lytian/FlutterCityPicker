@@ -1,5 +1,5 @@
 /// 城市的数据模型
-class AddressNode {
+class AddressNode<T> {
   /// 名称
   String? name;
 
@@ -9,10 +9,13 @@ class AddressNode {
   /// 首字母
   String? letter;
 
+  T? data;
+
   AddressNode({
     this.name,
     this.code,
     this.letter,
+    this.data,
   });
 
   factory AddressNode.fromJson(Map<String, dynamic> json) {

@@ -47,7 +47,7 @@ class ItemWidget extends StatefulWidget {
   /// item 高度
   final double? itemHeight;
 
-  /// 索引组件宽度
+  /// 索引组件宽度.等于0时，不显示indexBar
   final double? indexBarWidth;
 
   /// 索引组件 item 高度
@@ -180,7 +180,7 @@ class ItemWidgetState extends State<ItemWidget>
     return Container(
       width: double.infinity,
       height: double.infinity,
-      color: widget.backgroundColor ?? Theme.of(context).dialogBackgroundColor,
+      color: widget.backgroundColor ?? Theme.of(context).dialogTheme.backgroundColor,
       child: Stack(
         children: [
           ExpandableListView(
@@ -188,6 +188,10 @@ class ItemWidgetState extends State<ItemWidget>
             builder: SliverExpandableChildDelegate<AddressNode, SectionCity>(
               sectionList: _mList,
               headerBuilder: (context, sectionIndex, index) {
+                if (widget.indexBarWidth == 0) {
+                  return const SizedBox.shrink();
+                }
+
                 return Container(
                   width: double.infinity,
                   height: widget.itemHeadHeight,
@@ -198,7 +202,7 @@ class ItemWidgetState extends State<ItemWidget>
                       color: widget.itemHeadLineColor ?? Colors.black38,
                     )),
                     color: widget.itemHeadBackgroundColor ??
-                        Theme.of(context).dialogBackgroundColor,
+                        Theme.of(context).dialogTheme.backgroundColor,
                   ),
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(left: widget.paddingLeft!),
@@ -254,36 +258,37 @@ class ItemWidgetState extends State<ItemWidget>
               },
             ),
           ),
-          Positioned(
-            right: widget.paddingLeft,
-            top: 0,
-            bottom: 0,
-            child: SizedBox(
-              width: widget.indexBarWidth,
-              child: GestureDetector(
-                onVerticalDragDown: (DragDownDetails details) {
-                  RenderBox? box = _getRenderBox(context);
-                  if (box == null) return;
-                  int index = _getIndex(details.localPosition.dy);
-                  if (index >= 0) {
-                    clickIndexBar(index);
-                  }
-                },
-                onVerticalDragUpdate: (DragUpdateDetails details) {
-                  int index = _getIndex(details.localPosition.dy);
-                  if (index >= 0) {
-                    clickIndexBar(index);
-                  }
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(_mList.length, (index) {
-                    return _indexBarItem(index);
-                  }),
+          if (widget.indexBarWidth == 0)
+            Positioned(
+              right: widget.paddingLeft,
+              top: 0,
+              bottom: 0,
+              child: SizedBox(
+                width: widget.indexBarWidth,
+                child: GestureDetector(
+                  onVerticalDragDown: (DragDownDetails details) {
+                    RenderBox? box = _getRenderBox(context);
+                    if (box == null) return;
+                    int index = _getIndex(details.localPosition.dy);
+                    if (index >= 0) {
+                      clickIndexBar(index);
+                    }
+                  },
+                  onVerticalDragUpdate: (DragUpdateDetails details) {
+                    int index = _getIndex(details.localPosition.dy);
+                    if (index >= 0) {
+                      clickIndexBar(index);
+                    }
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(_mList.length, (index) {
+                      return _indexBarItem(index);
+                    }),
+                  ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );
