@@ -188,7 +188,9 @@ class ItemWidgetState extends State<ItemWidget>
             builder: SliverExpandableChildDelegate<AddressNode, SectionCity>(
               sectionList: _mList,
               headerBuilder: (context, sectionIndex, index) {
-                if (widget.indexBarWidth == 0) {
+                if (widget.indexBarWidth == 0
+                    || _mList[sectionIndex].letter == null
+                    || _mList[sectionIndex].letter!.isEmpty) {
                   return const SizedBox.shrink();
                 }
                 return Container(
@@ -257,7 +259,7 @@ class ItemWidgetState extends State<ItemWidget>
               },
             ),
           ),
-          if (widget.indexBarWidth == 0)
+          if (widget.indexBarWidth == 0 && _mList.length > 1)
             Positioned(
               right: widget.paddingLeft,
               top: 0,
